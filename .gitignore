@@ -1,16 +1,55 @@
-# Compiled class file
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- IDEs ---
+.idea/
+*.iml
+.vscode/
+
+# --- Logs ---
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Node / React / Next / Angular ---
+node_modules/
+.next/
+out/
+dist/
+coverage/
+.eslintcache
+.angular/
+.angular/cache/
+tmp/
+.vite/
+storybook-static/
+
+# --- Env files (keep secrets out of git) ---
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# --- Java / Gradle / Maven ---
+# compiled classes
 *.class
 
-# Log file
-*.log
+# build outputs
+**/build/
+**/target/
+.gradle/
 
-# BlueJ files
-*.ctxt
+# crash logs
+hs_err_pid*
+replay_pid*
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
+# package archives (generally don't commit)
 *.jar
 *.war
 *.nar
@@ -19,6 +58,16 @@
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+# Keep wrappers even with the *.jar rule above (order matters)
+!**/gradle/wrapper/gradle-wrapper.jar
+!**/gradle/wrapper/gradle-wrapper.properties
+!**/.mvn/wrapper/maven-wrapper.jar
+!**/.mvn/wrapper/maven-wrapper.properties
+
+# --- Docker / K8s (optional) ---
+docker-data/
+infra/k8s/secrets/*.yaml
+
+# --- Tilt ---
+Tiltfile.state.json
+tilt_modules/
