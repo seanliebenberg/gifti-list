@@ -36,6 +36,10 @@ dependencies {
     )
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0"
     )
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    runtimeOnly("org.postgresql:postgresql")
+    testImplementation("org.testcontainers:junit-jupiter:1.19.7")
+    testImplementation("org.testcontainers:postgresql:1.19.7")
     implementation(
         "org.springframework.boot:spring-boot-starter-web"
     )
