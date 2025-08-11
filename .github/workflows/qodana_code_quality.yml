@@ -1,0 +1,47 @@
+# .github/workflows/qodana-code-quality.yml
+name: qodana-backend
+
+on:
+  push:
+    paths:
+      - 'apps/backend/**'
+      - 'qodana.yaml'
+      - '.github/workflows/qodana-code-quality.yml'
+  pull_request:
+    paths:
+      - 'apps/backend/**'
+      - 'qodana.yaml'
+      - '.github/workflows/qodana-code-quality.yml'
+
+permissions:
+  contents: read
+  # keep these only if you want PR comments/inline annotations
+  pull-requests: write
+  checks: write
+
+concurrency:
+  group: qodana-backend-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  qodana:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Qodana Scan (JVM)
+        uses: JetBrains/qodana-action@v2025.2
+        with:
+          pr-mode: true           # only changed files on PRs
+          use-caches: true
+          post-pr-comment: true   # set to false if you don't want bot comments
+          use-annotations: true
+          upload-result: true     # save HTML/SARIF artifacts
+
+      # Optional: show findings in the Security tab
+      - name: Upload SARIF
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: qodana.sarif.json

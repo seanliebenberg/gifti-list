@@ -6,11 +6,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/wishlists")
 public class WishlistController {
+    private final WishlistItemRepository repo;
+    public WishlistController(WishlistItemRepository repo) { this.repo = repo; }
+
     @GetMapping
-    public List<WishlistItemDto> list() {
-        return List.of(
-                new WishlistItemDto(1L, "LEGO Classic", "https://example.com/lego"),
-                new WishlistItemDto(2L, "Cookbook", "https://example.com/cookbook")
-        );
+    public List<WishlistItem> list() { return repo.findAll(); }
+
+    @PostMapping
+    public WishlistItem create(@RequestBody WishlistItem body) {
+        return repo.save(new WishlistItem(body.getTitle(), body.getUrl()));
     }
 }
