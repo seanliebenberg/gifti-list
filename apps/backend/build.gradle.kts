@@ -40,8 +40,8 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("org.postgresql:postgresql")
-    testImplementation("org.testcontainers:junit-jupiter:1.19.7")
-    testImplementation("org.testcontainers:postgresql:1.19.7")
+    testImplementation("org.testcontainers:junit-jupiter:1.21.3")
+    testImplementation("org.testcontainers:postgresql:1.21.3")
 
     runtimeOnly("org.postgresql:postgresql")
 
