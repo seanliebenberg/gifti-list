@@ -6,14 +6,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/wishlists")
 public class WishlistController {
-    private final WishlistItemRepository repo;
-    public WishlistController(WishlistItemRepository repo) { this.repo = repo; }
+    private final WishlistService service;
+    public WishlistController(WishlistService service) { this.service = service; }
 
     @GetMapping
-    public List<WishlistItem> list() { return repo.findAll(); }
+    public List<WishlistItem> list() { return service.list(); }
+
+    public record CreateWishlistItemRequest(String title, String url) {}
 
     @PostMapping
-    public WishlistItem create(@RequestBody WishlistItem body) {
-        return repo.save(new WishlistItem(body.getTitle(), body.getUrl()));
+    public WishlistItem create(@RequestBody CreateWishlistItemRequest body) {
+        return service.create(body.title(), body.url());
     }
 }
