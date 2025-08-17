@@ -11,6 +11,10 @@ Family gift-sharing made simple: wishlists, occasions (birthdays/Christmas), Sec
 
 ---
 
+## Security
+
+See [SECURITY.md](./SECURITY.md) for our security policy and how to report vulnerabilities (via GitHub Security Advisories).
+
 ## Status
 - ✅ Backend (Java 21 + Spring Boot) running locally
 - 🛠 Web app (React) planned
