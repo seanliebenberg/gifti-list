@@ -7,6 +7,7 @@ Family gift-sharing made simple: wishlists, occasions (birthdays/Christmas), Sec
 > - Start here: [`docs/index.md`](./docs/index.md)
 > - Architecture: [`docs/architecture.md`](./docs/architecture.md)
 > - Dev setup: [`docs/dev-setup.md`](./docs/dev-setup.md)
+> - Testing setup: [`docs/testing.md`](./docs/testing.md)
 
 ---
 
