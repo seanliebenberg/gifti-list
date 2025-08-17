@@ -31,23 +31,24 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Qodana Scan
+      - name: Qodana Scan (Community)
         id: qodana
         uses: JetBrains/qodana-action@v2025.2
+        env:
+          # Ensures BOTH `qodana pull` and `qodana scan` use Community (no Cloud token)
+          QODANA_LINTER: jetbrains/qodana-jvm-community:2025.2
         with:
-          # IMPORTANT: pass the linter via CLI args (not as an 'image' input)
-          # Community edition -> no QODANA_TOKEN required
+          # Use absolute project dir so detection is reliable
           args: >-
-            --project-dir=apps/backend
-            --image=jetbrains/qodana-jvm-community:2025.2
+            --project-dir=${{ github.workspace }}/apps/backend
           use-caches: true
           use-annotations: true
           post-pr-comment: true
           pr-mode: ${{ github.event_name == 'pull_request' }}
-          upload-result: true  # attach HTML/SARIF to the job artifacts
+          upload-result: true
 
-      - name: Upload SARIF to Security tab
-        if: ${{ steps.qodana.outcome == 'success' }}
+      - name: Upload SARIF to Code Scanning
+        if: always()
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: ${{ runner.temp }}/qodana/results/qodana.sarif.json
