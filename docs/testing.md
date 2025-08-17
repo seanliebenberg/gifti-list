@@ -17,11 +17,11 @@ This page explains the test architecture I chose, and how I plan to use it in pr
 # Profiles 
 **How I expect the environments to behave**
 
--   Default (application.properties) – no DB config; the app can start anywhere.
+-   Default (application.properties) – no DB config; the app can start anywhere. Used for production.
 
 -   Local dev (application-local.properties) – points to Docker Postgres for day‑to‑day development.
 
--   Tests (application-test.properties) – in‑memory H2 for speed and isolation.
+-   Tests (application-test.properties) – in‑memory H2 for speed and isolation and CI
 
 **CI and ./gradlew test run with the test profile, so most tests use H2. Tests that need Postgres opt‑in via Testcontainers and override the datasource dynamically.**
 
