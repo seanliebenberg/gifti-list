@@ -13,7 +13,6 @@ permissions:
 jobs:
   analyze:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
@@ -29,7 +28,10 @@ jobs:
           build-mode: manual
 
       - name: Build backend (manual build for monorepo)
-        run: ./gradlew -p apps/backend clean build -x test
+        working-directory: apps/backend
+        run: |
+          chmod +x ./gradlew
+          ./gradlew clean build -x test
 
       - name: Analyze
         uses: github/codeql-action/analyze@v3
