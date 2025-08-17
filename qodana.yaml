@@ -1,49 +1,50 @@
-#-------------------------------------------------------------------------------#
-#               Qodana analysis is configured by qodana.yaml file               #
-#             https://www.jetbrains.com/help/qodana/qodana-yaml.html            #
-#-------------------------------------------------------------------------------#
-version: "1.0"
+# .github/workflows/qodana-code-quality.yml
+name: qodana-backend
 
-#Specify inspection profile for code analysis
-profile:
-  name: qodana.recommended
+on:
+  push:
+    paths:
+      - 'apps/backend/**'
+      - 'qodana.yaml'
+      - '.github/workflows/qodana-code-quality.yml'
+  pull_request:
+    paths:
+      - 'apps/backend/**'
+      - 'qodana.yaml'
+      - '.github/workflows/qodana-code-quality.yml'
 
-#Enable inspections
-#include:
-#  - name: <SomeEnabledInspectionId>
+permissions:
+  contents: read
+  # keep these only if you want PR comments/inline annotations
+  security-events: write     # needed for SARIF upload
+  pull-requests: write
+  checks: write
 
-#Disable inspections
-#exclude:
-#  - name: <SomeDisabledInspectionId>
-#    paths:
-#      - <path/where/not/run/inspection>
+concurrency:
+  group: qodana-backend-${{ github.ref }}
+  cancel-in-progress: true
 
-projectJDK: "21" #(Applied in CI/CD pipeline)
+jobs:
+  qodana:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
-#Execute shell command before Qodana execution (Applied in CI/CD pipeline)
-#bootstrap: sh ./prepare-qodana.sh
-
-#Install IDE plugins before Qodana execution (Applied in CI/CD pipeline)
-#plugins:
-#  - id: <plugin.id> #(plugin id can be found at https://plugins.jetbrains.com)
-
-# Quality gate. Will fail the CI/CD pipeline if any condition is not met
-# severityThresholds - configures maximum thresholds for different problem severities
-# testCoverageThresholds - configures minimum code coverage on a whole project and newly added code
-# Code Coverage is available in Ultimate and Ultimate Plus plans
-#failureConditions:
-#  severityThresholds:
-#    any: 15
-#    critical: 5
-#  testCoverageThresholds:
-#    fresh: 70
-#    total: 50
-  
-#Qodana supports other languages, for example, Python, JavaScript, TypeScript, Go, C#, PHP
-#For all supported languages see https://www.jetbrains.com/help/qodana/linters.html
-#linter: jetbrains/qodana-jvm-community:2025.2
-
-failureConditions:
-  severityThresholds:
-    critical: 1   # fail if any critical is found
-    high: 5
+      - name: Qodana Scan
+        uses: JetBrains/qodana-action@v2025.2
+        with:
+          linter: jetbrains/qodana-jvm-community:2025.2 # Community = no token needed
+          pr-mode: false          # only changed files on PRs
+          use-caches: true
+          post-pr-comment: true   # set to false if you don't want bot comments
+          use-annotations: true
+#          upload-result: true     # save HTML/SARIF artifacts
+          args: --project-dir=apps/backend
+      # Optional: show findings in the Security tab
+      - name: Upload SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ${{ runner.temp }}/qodana/results/qodana.sarif.json

@@ -16,6 +16,7 @@ on:
 permissions:
   contents: read
   # keep these only if you want PR comments/inline annotations
+  security-events: write     # needed for SARIF upload
   pull-requests: write
   checks: write
 
@@ -31,17 +32,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Qodana Scan (JVM)
+      - name: Qodana Scan
         uses: JetBrains/qodana-action@v2025.2
         with:
-          pr-mode: true           # only changed files on PRs
+          image: jetbrains/qodana-jvm-community:2025.2 # Community = no token needed
+          pr-mode: false          # only changed files on PRs
           use-caches: true
           post-pr-comment: true   # set to false if you don't want bot comments
           use-annotations: true
-          upload-result: true     # save HTML/SARIF artifacts
-
+#          upload-result: true     # save HTML/SARIF artifacts
+          args: --project-dir=apps/backend
       # Optional: show findings in the Security tab
       - name: Upload SARIF
+        if: always()
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: qodana.sarif.json
+          sarif_file: ${{ runner.temp }}/qodana/results/qodana.sarif.json
