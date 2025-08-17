@@ -1,49 +1,9 @@
-# .github/workflows/qodana-code-quality.yml
-name: qodana-backend
+version: "1.0"
+profile:
+  name: qodana.recommended   # or: qodana.starter
+projectJDK: "21"
 
-on:
-  push:
-    paths:
-      - 'apps/backend/**'
-      - 'qodana.yaml'
-      - '.github/workflows/qodana-code-quality.yml'
-  pull_request:
-    paths:
-      - 'apps/backend/**'
-      - 'qodana.yaml'
-      - '.github/workflows/qodana-code-quality.yml'
-
-permissions:
-  contents: read
-  security-events: write     # needed for SARIF upload
-  pull-requests: write       # for PR comments
-  checks: write              # for annotations
-
-concurrency:
-  group: qodana-backend-${{ github.ref }}
-  cancel-in-progress: true
-
-jobs:
-  qodana:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Qodana Scan
-        uses: JetBrains/qodana-action@v2025.2
-        with:
-          image: jetbrains/qodana-jvm-community:2025.2   # Community = no token needed
-          use-caches: true
-          use-annotations: true
-          post-pr-comment: true
-          pr-mode: ${{ github.event_name == 'pull_request' }}  # changed files on PRs
-          args: --project-dir=apps/backend
-          upload-result: true  # optional: attach HTML/artifacts to the job
-
-      - name: Upload SARIF to Code Scanning
-        if: always()
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: ${{ runner.temp }}/qodana/results/qodana.sarif.json
+failureConditions:
+  severityThresholds:
+    critical: 1
+    high: 5
