@@ -1,4 +1,3 @@
-# .github/workflows/qodana-code-quality.yml
 name: qodana-backend
 
 on:
@@ -19,28 +18,22 @@ permissions:
   pull-requests: write
   checks: write
 
-concurrency:
-  group: qodana-backend-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   qodana:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+        with: { fetch-depth: 0 }
 
       - name: Qodana Scan (Community)
         id: qodana
         uses: JetBrains/qodana-action@v2025.2
         env:
-          # Ensures BOTH `qodana pull` and `qodana scan` use Community (no Cloud token)
-          QODANA_LINTER: jetbrains/qodana-jvm-community:2025.2
+          # <- THIS is the key: the action looks at QODANA_IMAGE
+          QODANA_IMAGE: jetbrains/qodana-jvm-community:2025.2
         with:
-          # Use absolute project dir so detection is reliable
-          args: >-
-            --project-dir=${{ github.workspace }}/apps/backend
+          # try scanning the whole repo to avoid “no technologies detected”.
+          # your path filters already limit when this job runs.
           use-caches: true
           use-annotations: true
           post-pr-comment: true
