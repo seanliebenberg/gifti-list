@@ -15,11 +15,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class WishlistControllerTest {
 
     private MockMvc mvc;
-    private WishlistService service;
 
     @BeforeEach
     void setup() {
-        service = Mockito.mock(WishlistService.class);
+        WishlistService service = Mockito.mock(WishlistService.class);
         when(service.list()).thenReturn(
                 List.of(new WishlistItem("LEGO Classic", "https://example.com/lego"))
         );

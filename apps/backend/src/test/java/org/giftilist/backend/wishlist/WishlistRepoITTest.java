@@ -1,13 +1,11 @@
-package org.giftilist.backend.Wishlist;
+package org.giftilist.backend.wishlist;
 
-import org.giftilist.backend.wishlist.WishlistItem;
-import org.giftilist.backend.wishlist.WishlistItemRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,11 +13,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Testcontainers
 @SpringBootTest
-class WishlistRepoIT {
+class WishlistRepoITTest {
 
-    static PostgreSQLContainer<?> db = new PostgreSQLContainer<>("postgres:16-alpine")
+    @Container
+    @SuppressWarnings("resource") // managed by Testcontainers JUnit extension
+    static final PostgreSQLContainer<?> db = new PostgreSQLContainer<>("postgres:16-alpine")
             .withDatabaseName("giftilist").withUsername("postgres").withPassword("postgres");
-    static { db.start(); }
 
     @DynamicPropertySource
     static void props(DynamicPropertyRegistry r) {
