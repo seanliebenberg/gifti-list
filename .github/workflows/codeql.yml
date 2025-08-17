@@ -1,0 +1,35 @@
+name: codeql
+
+on:
+  push:
+    paths: ['apps/backend/**', '.github/workflows/codeql.yml']
+  pull_request:
+    paths: ['apps/backend/**', '.github/workflows/codeql.yml']
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Init CodeQL (Java only)
+        uses: github/codeql-action/init@v3
+        with:
+          languages: java
+          build-mode: manual
+
+      - name: Build backend (manual build for monorepo)
+        run: ./gradlew -p apps/backend clean build -x test
+
+      - name: Analyze
+        uses: github/codeql-action/analyze@v3
