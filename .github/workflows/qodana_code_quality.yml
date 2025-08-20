@@ -29,11 +29,8 @@ jobs:
         id: qodana
         uses: JetBrains/qodana-action@v2025.2
         env:
-          # <- THIS is the key: the action looks at QODANA_IMAGE
           QODANA_IMAGE: jetbrains/qodana-jvm-community:2025.2
         with:
-          # try scanning the whole repo to avoid “no technologies detected”.
-          # your path filters already limit when this job runs.
           use-caches: true
           use-annotations: true
           post-pr-comment: true
@@ -41,7 +38,7 @@ jobs:
           upload-result: true
 
       - name: Upload SARIF to Code Scanning
-        if: always()
+        if: ${{ steps.qodana.outcome == 'success' }}
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: ${{ runner.temp }}/qodana/results/qodana.sarif.json

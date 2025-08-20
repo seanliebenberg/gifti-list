@@ -7,3 +7,7 @@ failureConditions:
   severityThresholds:
     critical: 1
     high: 5
+
+results:
+  report:
+    format: sarif
