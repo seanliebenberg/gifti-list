@@ -33,9 +33,13 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     testRuntimeOnly("com.h2database:h2")
 
-    // Dev experience (optional)
+    // Flyway
+    implementation("org.flywaydb:flyway-core")
+    implementation("org.flywaydb:flyway-database-postgresql")
+
+    // Dev experience
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-    // Remove if you’re not using Spring’s Compose integration right now
+    // Remove as not using Spring’s Compose integration right now
     // developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 
     // Lombok (optional)
@@ -46,7 +50,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.testcontainers:junit-jupiter:1.21.3")
     testImplementation("org.testcontainers:postgresql:1.21.3")
-    // Helpful for some IDEs/CI runners; optional
+
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
