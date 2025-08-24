@@ -1,31 +1,37 @@
 package org.giftilist.backend.wishlist;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import org.springframework.http.HttpStatus;
+import org.giftilist.backend.wishlist.api.CreateWishlistItemRequest;
+import org.giftilist.backend.wishlist.api.WishlistItemResponse;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/wishlists")
+@RequestMapping(value = "/api/wishlists", produces = MediaType.APPLICATION_JSON_VALUE)
 public class WishlistController {
     private final WishlistService service;
     public WishlistController(WishlistService service) { this.service = service; }
 
     @GetMapping
-    public List<WishlistItem> list() { return service.list(); }
-
-    public record CreateWishlistItemRequest(
-            @NotBlank(message = "title is required")
-            String title,
-            @Size(max = 1024)
-            String url) {}
+    public List<WishlistItemResponse> list() {
+        return service.list().stream().map(this::toResponse).toList(); }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    public WishlistItem create(@Valid @RequestBody CreateWishlistItemRequest body) {
-        return service.create(body.title(), body.url());
+    public ResponseEntity<WishlistItemResponse> create(@Valid @RequestBody CreateWishlistItemRequest body) {
+        var saved = service.create(body.title(), body.url());
+        var location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(saved.getId())
+                .toUri();
+        return ResponseEntity.created(location).body(toResponse(saved));
+    }
+
+    private WishlistItemResponse toResponse(WishlistItem it) {
+        return new WishlistItemResponse(it.getId(), it.getTitle(), it.getUrl());
     }
 }
