@@ -27,7 +27,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
     // OpenAPI UI (Swagger)
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.11")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.14")
 
     // DB drivers
     runtimeOnly("org.postgresql:postgresql")
