@@ -1,4 +1,3 @@
-
 ## ✅ Prerequisites
 - **JDK 21** (Temurin/Zulu)
 - **Node 20+** (npm or pnpm)
@@ -32,38 +31,31 @@ tilt up
 npm install && npm run dev
 # App → http://localhost:3000
 ```
-🔌 OpenAPI / Clients
 
-Live spec: GET /v3/api-docs
+---
 
-Swagger UI: /swagger-ui.html
+🔌 **OpenAPI / Clients**
+- Live spec: GET /v3/api-docs
+- Swagger UI: /swagger-ui.html
+- (Optional) Generate a TS client into packages/api-client using openapi-generator.
 
-(Optional) Generate a TS client into packages/api-client using openapi-generator.
+🌐 **i18n**
+- Source language: English
+- Translations: Dutch (public/locales/en|nl/*.json)
+- Library: react-i18next (web), react-i18next/react-native-localize (mobile)
 
-🌐 i18n
+🔐 **Env & Secrets (dev)**
+- Keep secrets out of git (see root .gitignore)
+- Use `.env.local` (in `apps/web-react/`) for web, `application-local.yml` (in `apps/backend/`) for backend
+- For K8s, use `infra/k8s/secrets/` (do not commit raw secrets)
 
-Source language: English
+🧪 **Testing**
+- See [docs/testing.md](./testing.md) for how to run tests and test coverage.
 
-Translations: Dutch (public/locales/en|nl/*.json)
+🤝 **Contributing / Conventions**
+- Conventional commits (feat:, fix:, chore:…)
+- Prettier/ESLint for web; Checkstyle/Spotless for backend (TBD)
+- PRs target main with checks via GitHub Actions
 
-Library: react-i18next (web), react-i18next/react-native-localize (mobile)
-
-🔐 Env & Secrets (dev)
-
-Keep secrets out of git (see root .gitignore)
-
-Use .env.local for web, application-local.yml for backend
-
-For K8s, use infra/k8s/secrets/ (do not commit raw secrets)
-
-🤝 Contributing / Conventions
-
-Conventional commits (feat:, fix:, chore:…)
-
-Prettier/ESLint for web; Checkstyle/Spotless for backend (TBD)
-
-PRs target main with checks via GitHub Actions
-
-📜 License
-
-MIT 
+📜 **License**
+- MIT

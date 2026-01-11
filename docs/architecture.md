@@ -1,4 +1,4 @@
-This document describes the overall system architecture for the Gift App, including event-driven features (audit logging, messaging, analytics, notifications).
+This document describes the overall system architecture for the Gift List App, including event-driven features (audit logging, messaging, analytics, notifications).
 ```mermaid
 graph LR
 WebReact[React Web Frontend]
@@ -24,6 +24,8 @@ AuditDB --> Metabase
 Directory Layout
 ```
 gifti-list/
+├── .github/            # CI/CD workflows (GitHub Actions)
+│   └── workflows/
 ├── apps/
 │   ├── web-react/       # React (+ Next.js) + Tailwind CSS (start)
 │   ├── web-angular/     # Angular + Tailwind CSS (future)
@@ -40,7 +42,6 @@ gifti-list/
 │   ├── index.md
 │   ├── dev-setup.md
 │   └── architecture.md
-└── dev-tools/          # Developer tooling configurations
-    ├── Tiltfile         # Tilt config for local development
-    └── .github/         # CI/CD workflows (GitHub Actions)
+├── dev-tools/          # Developer tooling configurations
+│   └── Tiltfile         # Tilt config for local development
 ```
