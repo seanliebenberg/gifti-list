@@ -1,6 +1,6 @@
 plugins {
     java
-    id("org.springframework.boot") version "4.0.1"
+    id("org.springframework.boot") version "4.0.2"
     id("io.spring.dependency-management") version "1.1.7"
 }
 
@@ -47,7 +47,7 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
 
     // Testing
-    testImplementation("org.springframework.boot:spring-boot-test-autoconfigure:4.0.1")
+    testImplementation("org.springframework.boot:spring-boot-test-autoconfigure:4.0.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
     testImplementation("org.testcontainers:junit-jupiter:1.21.4")
