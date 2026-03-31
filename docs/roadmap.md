@@ -33,6 +33,20 @@ Backend service (Spring Boot). But want to track my overall progress over everyt
 * ⏭️ Flyway migrations (baseline schema, future updates)
 * ⏭️ Constraints/indexes (e.g., per‑user uniqueness when users land)
 
+## Messaging / Async
+
+* ✅ RabbitMQ added to Docker Compose
+* ✅ Spring AMQP dependency + basic config
+* ✅ Queue declared in app config
+* ✅ Basic publisher sends test message
+* ✅ Basic consumer (`@RabbitListener`) receives test message
+* ✅ Verified queue behavior in RabbitMQ UI (message waits when consumer disabled; consumed when enabled)
+* ⏭️ Replace string payload with typed event (`ItemReservedEvent` or similar)
+* ⏭️ Trigger publish from a real application use case instead of test endpoint/startup runner
+* ⏭️ Decide first real async use case (notifications, audit log, analytics)
+* ❄️ Exchange + routing keys (topic/fan-out)
+* ❄️ Retry / DLQ / idempotency
+
 ## Testing
 
 * ✅ Controller tests (standalone `MockMvc` + validator + advice; service mocked)
@@ -105,3 +119,4 @@ Backend service (Spring Boot). But want to track my overall progress over everyt
 * Keep tests in a pyramid: many unit tests, fewer web/controller tests, very few container/integration tests.
 * Local dev: run with `--spring.profiles.active=local` to use Compose Postgres.
 * CI: tests default to H2; Postgres‑specific tests use Testcontainers automatically.
+* Messaging: keep core business flow synchronous first; use RabbitMQ for side effects and async processing.
