@@ -1,55 +1,124 @@
-# Gifti List 
+# 🎁 Gifti List
 
 Family gift-sharing made simple: wishlists, occasions (birthdays/Christmas), Secret Santa, and family groups.
 
 ---
 
-## Documentation
+## 📚 Documentation
 
-- **[Project overview & index](./docs/index.md):** Start here for a high-level view of the project.
-- **[Architecture](./docs/architecture.md):** Learn about the system design and key components.
-- **[Development setup](./docs/dev-setup.md):** Step-by-step guide to get your environment running.
-- **[Testing](./docs/testing.md):** How to run, write, and understand tests.
-- **[Roadmap](./docs/roadmap.md):** Upcoming features and progress tracking.
+* **[Project overview](./docs/index.md)** — high-level vision and features
+* **[Architecture](./docs/architecture.md)** — system design and components
+* **[Development setup](./docs/dev-setup.md)** — how to run locally
+* **[Testing](./docs/testing.md)** — test strategy and usage
+* **[Roadmap](./docs/roadmap.md)** — progress and upcoming work
 
-> 📚 Full docs live in [`/docs`](./docs):
-> - Start here: [`docs/index.md`](./docs/index.md)
-> - Architecture: [`docs/architecture.md`](./docs/architecture.md)
-> - Dev setup: [`docs/dev-setup.md`](./docs/dev-setup.md)
-> - Testing setup: [`docs/testing.md`](./docs/testing.md)
-> - Roadmap -> track progress [`docs/roadmap.md`](./docs/roadmap.md)
+> Full docs live in [`/docs`](./docs)
 
 ---
 
-## Security
+## 🚧 Status
 
-See [SECURITY.md](./SECURITY.md) for our security policy and how to report vulnerabilities (via GitHub Security Advisories).
-
-## Status
-- ✅ Backend (Java 21 + Spring Boot) running locally
-- 🛠 Web app (React) planned
-- 🗺️ Angular + Mobile (React Native) later
-
----
-## Quality assurance
-
-Test coverage includes:
-- **Integration test (JPA repository):** Uses Testcontainers with PostgreSQL to verify real DB integration.
-- **Smoke test:** Ensures the Spring Boot application context loads without errors.
-- **Unit & controller tests:** Fast tests using mocks or in-memory DB (H2), covering business logic and web endpoints.
-
-See [docs/testing.md](./docs/testing.md) for details.
+* ✅ Backend (Spring Boot + Java 21)
+* ✅ PostgreSQL (Docker)
+* ✅ RabbitMQ (basic messaging)
+* 🛠 Web app (React) in progress
+* 🗺️ Angular + Mobile planned
 
 ---
 
-## Quick start (backend)
+## ⚙️ Tech Stack
 
-- start db (postgres container) from project root
-```bash
+* **Backend:** Spring Boot, Java 21
+* **Database:** PostgreSQL
+* **Messaging:** RabbitMQ
+* **Frontend:** React (planned), Angular (future), React Native (future)
+* **Dev tooling:** Docker Compose, (optional) Kubernetes + Tilt
+
+---
+
+## 🚀 Quick Start (Local)
+
+### 1. Start infrastructure
+
+```bash id="qkmx98"
 docker compose up -d
 ```
-- start app
-```bash
+
+This starts:
+
+* PostgreSQL
+* RabbitMQ
+
+RabbitMQ UI:
+👉 http://localhost:15672
+(user: `guest`, pass: `guest` — dev only)
+
+---
+
+### 2. Start backend
+
+```bash id="8p0g3r"
 cd apps/backend
 ./gradlew bootRun
 ```
+
+* API: http://localhost:8080
+* Swagger: http://localhost:8080/swagger-ui.html
+
+---
+
+### 3. (Optional) Start frontend
+
+```bash id="f3ld7m"
+cd apps/web-react
+npm install
+npm run dev
+```
+
+* App: http://localhost:3000
+
+---
+
+## 🧪 Quality Assurance
+
+Test coverage includes:
+
+* **Unit tests** → business logic (fast, no Spring)
+* **Controller tests** → HTTP behavior (MockMvc, no DB)
+* **Repository tests** → real Postgres via Testcontainers
+* **Smoke test** → Spring Boot context loads
+
+👉 See [docs/testing.md](./docs/testing.md)
+
+---
+
+## 🔄 Architecture Highlights
+
+* Modular monolith backend
+* PostgreSQL for core data
+* RabbitMQ for asynchronous processing
+* Event-driven side effects (notifications, audit, analytics)
+
+👉 See [docs/architecture.md](./docs/architecture.md)
+
+---
+
+## 🔐 Security
+
+See [SECURITY.md](./SECURITY.md) for reporting vulnerabilities.
+
+---
+
+## 🧠 Project Direction
+
+This project evolves from a simple backend into a **fully observable, event-driven system**:
+
+* Core logic: synchronous (API → DB)
+* Side effects: asynchronous (events via RabbitMQ)
+* Next step: observability (metrics, dashboards)
+
+---
+
+## 📜 License
+
+MIT
