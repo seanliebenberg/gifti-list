@@ -9,4 +9,6 @@ public class WishlistService {
     public WishlistService(WishlistItemRepository repo) { this.repo = repo; }
     public List<WishlistItem> list() { return repo.findAll(); }
     public WishlistItem create(String title, String url) { return repo.save(new WishlistItem(title, url)); }
+    public WishlistItem get(Long id) { return repo.findById(id).orElseThrow(() -> new RuntimeException("Not found")); }
+    public void delete(Long id) { repo.deleteById(id); }
 }

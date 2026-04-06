@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api/wishlists", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,5 +34,16 @@ public class WishlistController {
 
     private WishlistItemResponse toResponse(WishlistItem it) {
         return new WishlistItemResponse(it.getId(), it.getTitle(), it.getUrl());
+    }
+
+    @GetMapping("/{id}")
+    public WishlistItemResponse get(@PathVariable Long id) {
+        return toResponse(service.get(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

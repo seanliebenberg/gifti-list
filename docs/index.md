@@ -141,7 +141,7 @@ The backend uses **RabbitMQ** to support asynchronous workflows.
 
 ---
 
-### Observability
+### 👁️ Observability
 - Spring Boot Actuator enabled
 - Prometheus metrics endpoint available
 - RabbitMQ metrics available

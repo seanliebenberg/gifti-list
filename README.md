@@ -14,7 +14,7 @@ Family gift-sharing made simple: wishlists, occasions (birthdays/Christmas), Sec
 * **[Health](`http://localhost:8080/actuator/health`)** — backend health status
 * **[App metrics](`http://localhost:8080/actuator/prometheus`)** — backend operational metrics
 * **[RabbitMQ metrics](`http://localhost:15692/metrics`)** — broker operational metrics
-
+* **[Local Dev URLs](docs/dev-urls.md)** — quick reference for local endpoints
 > Full docs live in [`/docs`](./docs)
 
 ---
