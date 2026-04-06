@@ -142,6 +142,17 @@ For messaging:
 
 ---
 
+## Observability checks
+
+Basic observability endpoints should be verifiable locally:
+
+- `/actuator/health`
+- `/actuator/prometheus`
+
+These are mostly configuration/infrastructure checks rather than business tests.
+
+---
+
 # Tasks & layout (current)
 
 All tests live under `src/test/java`.

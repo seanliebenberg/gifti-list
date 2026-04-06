@@ -47,6 +47,19 @@ Backend service (Spring Boot). But want to track my overall progress over everyt
 * ❄️ Exchange + routing keys (topic/fan-out)
 * ❄️ Retry / DLQ / idempotency
 
+## Observability
+
+* ✅ Spring Boot Actuator added
+* ✅ Prometheus registry added
+* ✅ `/actuator/health` exposed
+* ✅ `/actuator/prometheus` exposed
+* ✅ RabbitMQ metrics endpoint available (`:15692/metrics`)
+* ⏭️ Prometheus in Docker Compose
+* ⏭️ Grafana in Docker Compose
+* ⏭️ Basic dashboard (HTTP, JVM, RabbitMQ)
+* ⏭️ First custom business metrics
+* ❄️ OpenTelemetry tracing (later)
+
 ## Testing
 
 * ✅ Controller tests (standalone `MockMvc` + validator + advice; service mocked)

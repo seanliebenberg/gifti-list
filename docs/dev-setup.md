@@ -109,6 +109,18 @@ Used for:
 
 ---
 
+## Observability (local)
+
+Backend endpoints:
+- Health: `http://localhost:8080/actuator/health`
+- Prometheus metrics: `http://localhost:8080/actuator/prometheus`
+
+RabbitMQ metrics:
+- `http://localhost:15692/metrics`
+
+These endpoints are used later by Prometheus/Grafana for monitoring.
+---
+
 ## 🧪 Testing
 
 * See [docs/testing.md](./testing.md)

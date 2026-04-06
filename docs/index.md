@@ -138,3 +138,11 @@ The backend uses **RabbitMQ** to support asynchronous workflows.
 * Event-driven extensions via RabbitMQ
 * Clear separation of concerns (API / domain / messaging)
 * Designed for evolution toward distributed systems if needed
+
+---
+
+### Observability
+- Spring Boot Actuator enabled
+- Prometheus metrics endpoint available
+- RabbitMQ metrics available
+- Grafana dashboards planned next

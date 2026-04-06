@@ -191,12 +191,27 @@ Current → Next → Later
 
 * ✅ Backend API + Postgres
 * ✅ RabbitMQ (basic publish/consume)
-* ⏭️ Observability (metrics, dashboards)
+* ✅ Observability (metrics, dashboards)
 * ⏭️ Real async use cases (notifications, audit)
 * ❄️ Advanced messaging (exchanges, retries, DLQ)
 * ❄️ Distributed architecture (if needed)
 
 ---
+
+## Observability
+
+The system exposes operational metrics for both the backend and RabbitMQ.
+
+- Backend metrics are exposed via Spring Boot Actuator + Micrometer
+- RabbitMQ metrics are exposed via its Prometheus endpoint
+- Prometheus scrapes both
+- Grafana visualizes dashboards
+
+This supports monitoring of:
+- application health
+- request volume and latency
+- JVM/resource usage
+- queue depth and broker activity
 
 ## Summary
 
