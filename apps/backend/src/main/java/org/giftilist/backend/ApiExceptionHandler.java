@@ -1,6 +1,7 @@
 package org.giftilist.backend;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.giftilist.backend.wishlist.WishlistItemNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
@@ -42,6 +43,20 @@ public class ApiExceptionHandler {
                 HttpStatus.BAD_REQUEST.value(),
                 "Bad request",
                 "invalid json",
+                request.getRequestURI(),
+                Map.of()
+        );
+    }
+
+
+    @ExceptionHandler(WishlistItemNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    ApiError handleWishlistItemNotFound(WishlistItemNotFoundException ex, HttpServletRequest request) {
+        return new ApiError(
+                Instant.now(),
+                HttpStatus.NOT_FOUND.value(),
+                "Not found",
+                ex.getMessage(),
                 request.getRequestURI(),
                 Map.of()
         );

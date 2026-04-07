@@ -1,7 +1,7 @@
-package org.giftilist.backend.wishlist.item;
+package org.giftilist.backend.messaging.event;
 
 
-import org.giftilist.backend.wishlist.messaging.publisher.EventPublisher;
+import org.giftilist.backend.messaging.publisher.EventPublisher;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 

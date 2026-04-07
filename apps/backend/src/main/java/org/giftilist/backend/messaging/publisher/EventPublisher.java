@@ -1,4 +1,4 @@
-package org.giftilist.backend.wishlist.messaging.publisher;
+package org.giftilist.backend.messaging.publisher;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;

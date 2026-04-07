@@ -21,19 +21,19 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
-class WishlistControllerTest {
+class WishlistItemControllerTest {
 
     private MockMvc mvc;
-    private WishlistService service;
+    private WishlistItemService service;
 
     @BeforeEach
     void setup() {
         var validator = new LocalValidatorFactoryBean();
         validator.afterPropertiesSet();
 
-        service = Mockito.mock(WishlistService.class);
+        service = Mockito.mock(WishlistItemService.class);
 
-        mvc = MockMvcBuilders.standaloneSetup(new WishlistController(service))
+        mvc = MockMvcBuilders.standaloneSetup(new WishlistItemController(service))
                 .setControllerAdvice(new ApiExceptionHandler())
                 .setValidator(validator)
                 .build();

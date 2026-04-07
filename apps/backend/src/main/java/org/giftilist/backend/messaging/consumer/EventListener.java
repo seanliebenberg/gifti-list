@@ -1,4 +1,4 @@
-package org.giftilist.backend.wishlist.messaging.consumer;
+package org.giftilist.backend.messaging.consumer;
 
 import org.giftilist.backend.config.RabbitMqConfig;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
