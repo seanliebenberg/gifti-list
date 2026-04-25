@@ -45,20 +45,20 @@ class WishlistItemControllerTest {
                 new WishlistItem("LEGO Classic", "https://example.com/lego")
         ));
 
-        mvc.perform(get("/api/wishlists"))
+        mvc.perform(get("/api/wishlist-items"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].title").value("LEGO Classic"));
     }
     @Test
     void listForNonJSONReturnsNotAcceptable() throws Exception {
-        mvc.perform(get("/api/wishlists").accept(MediaType.TEXT_HTML))
+        mvc.perform(get("/api/wishlist-items").accept(MediaType.TEXT_HTML))
                 .andExpect(status().isNotAcceptable());
     }
 
     @Test
     void ListForMissingOrIncorrectContentTypeReturnsUnsupportedMediaType() throws Exception {
-        mvc.perform(post("/api/wishlists")
+        mvc.perform(post("/api/wishlist-items")
                         .contentType(MediaType.TEXT_PLAIN)
                         .content("""
                             {"title":"Cookbook","url":"https://ex.com"}
@@ -69,7 +69,7 @@ class WishlistItemControllerTest {
 
     @Test
     void createEmptyWishlistReturnsBadRequest() throws Exception {
-        mvc.perform(post("/api/wishlists")
+        mvc.perform(post("/api/wishlist-items")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
                 .andExpect(status().isBadRequest())
@@ -85,13 +85,13 @@ class WishlistItemControllerTest {
 
         when(service.create("Cookbook", "https://ex.com")).thenReturn(saved);
 
-        mvc.perform(post("/api/wishlists")
+        mvc.perform(post("/api/wishlist-items")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                         {"title":"Cookbook","url":"https://ex.com"}
                         """))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", org.hamcrest.Matchers.matchesPattern(".*/api/wishlists/\\d+")))
+                .andExpect(header().string("Location", org.hamcrest.Matchers.matchesPattern(".*/api/wishlist-items/\\d+")))
                 .andExpect(jsonPath("$.id").value(42));
     }
 
@@ -101,7 +101,7 @@ class WishlistItemControllerTest {
                 new WishlistItem("Cookbook", "https://ex.com")
         );
 
-        mvc.perform(post("/api/wishlists")
+        mvc.perform(post("/api/wishlist-items")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                             {"title":"Cookbook","url":"https://ex.com"}
