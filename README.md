@@ -12,9 +12,9 @@ Family gift-sharing made simple: wishlists, occasions (birthdays/Christmas), Sec
 * **[Development setup](./docs/dev-setup.md)** — how to run locally
 * **[Testing](./docs/testing.md)** — test strategy and usage
 * **[Roadmap](./docs/roadmap.md)** — progress and upcoming work
-* **[Health](`http://localhost:8080/actuator/health`)** — backend health status
-* **[App metrics](`http://localhost:8080/actuator/prometheus`)** — backend operational metrics
-* **[RabbitMQ metrics](`http://localhost:15692/metrics`)** — broker operational metrics
+* **[Health](http://localhost:8080/actuator/health)** — backend health status
+* **[App metrics](http://localhost:8080/actuator/prometheus)** — backend operational metrics
+* **[RabbitMQ metrics](http://localhost:15692/metrics)** — broker operational metrics
 * **[Local Dev URLs](docs/dev-urls.md)** — quick reference for local endpoints
 
 ---
