@@ -11,10 +11,10 @@ Backend service (Spring Boot). But want to track my overall progress over everyt
 ## Backend API
 
 * ✅ Boot project skeleton (Spring Boot 3, Java 21)
-* ✅ Wishlist endpoints: `GET /api/wishlists`, `POST /api/wishlists`
-* ⏭️ `GET /api/wishlists/{id}`
-* ⏭️ `DELETE /api/wishlists/{id}`
-* ⏭️ `PUT/PATCH /api/wishlists/{id}` (update)
+* ✅ wishlist-items endpoints: `GET /api/wishlist-items`, `POST /api/wishlist-items`
+* ⏭️ `GET /api/wishlist-items/{id}`
+* ⏭️ `DELETE /api/wishlist-items/{id}`
+* ⏭️ `PUT/PATCH /api/wishlist-items/{id}` (update)
 * ⏭️ Pagination & sorting for list
 
 ## DTOs, Validation & Errors
