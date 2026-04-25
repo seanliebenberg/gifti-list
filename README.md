@@ -4,8 +4,9 @@ Family gift-sharing made simple: wishlists, occasions (birthdays/Christmas), Sec
 
 ---
 
-## 📚 Documentation
+## 📚 Documentation Overview
 
+> Full docs live in [`/docs`](./docs), but here are some key links:
 * **[Project overview](./docs/index.md)** — high-level vision and features
 * **[Architecture](./docs/architecture.md)** — system design and components
 * **[Development setup](./docs/dev-setup.md)** — how to run locally
@@ -15,11 +16,10 @@ Family gift-sharing made simple: wishlists, occasions (birthdays/Christmas), Sec
 * **[App metrics](`http://localhost:8080/actuator/prometheus`)** — backend operational metrics
 * **[RabbitMQ metrics](`http://localhost:15692/metrics`)** — broker operational metrics
 * **[Local Dev URLs](docs/dev-urls.md)** — quick reference for local endpoints
-> Full docs live in [`/docs`](./docs)
 
 ---
 
-## 🚧 Status
+## 🚧 Project Status
 
 * ✅ Backend (Spring Boot + Java 21)
 * ✅ PostgreSQL (Docker)
@@ -54,10 +54,8 @@ This starts:
 
 * PostgreSQL
 * RabbitMQ
-
-RabbitMQ UI:
-👉 http://localhost:15672
-(user: `guest`, pass: `guest` — dev only)
+* Prometheus 
+* Grafana
 
 ---
 
@@ -67,9 +65,6 @@ RabbitMQ UI:
 cd apps/backend
 ./gradlew bootRun
 ```
-
-* API: http://localhost:8080
-* Swagger: http://localhost:8080/swagger-ui.html
 
 ---
 
