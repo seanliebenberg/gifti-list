@@ -30,6 +30,6 @@ jobs:
           distribution: temurin
           java-version: '21'
       - uses: gradle/actions/setup-gradle@v6
-      - run: ./gradlew test --stacktrace
+      - run: ./gradlew clean build --stacktrace --no-daemon
         env:
           SPRING_PROFILES_ACTIVE: test
