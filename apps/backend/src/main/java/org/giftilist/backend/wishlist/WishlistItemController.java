@@ -48,4 +48,9 @@ public class WishlistItemController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/error")
+    public String throwError() {
+        throw new RuntimeException("Error");
+    }
 }
