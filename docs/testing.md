@@ -1,10 +1,10 @@
-# Testing
+# 🧪 Testing
 
 This page explains the test architecture I chose, and how I plan to use it in practice.
 
 ---
 
-# Goals
+# 🎯 Goals
 
 * Fast, deterministic feedback locally and in CI.
 * No accidental dependency on a running Postgres for most tests.
@@ -15,7 +15,7 @@ This page explains the test architecture I chose, and how I plan to use it in pr
 
 ---
 
-# Profiles
+# ⚙️ Profiles
 
 **How I expect the environments to behave**
 
@@ -31,7 +31,7 @@ CI and `./gradlew test` run with the test profile.
 
 ---
 
-# Day-to-day workflow
+# 🔄 Day-to-day workflow
 
 Run all tests regularly:
 
@@ -50,7 +50,7 @@ Run all tests regularly:
 
 ---
 
-# When to write which test
+# 🧠 When to write which test
 
 * Pure logic → Service unit test
 * HTTP behavior → Controller test (no DB)
@@ -116,7 +116,7 @@ Only test the broker when:
 
 ---
 
-# TDD strategy
+# 🔴🟢 TDD strategy
 
 Use Red → Green → Refactor loops while keeping cycles fast:
 
@@ -133,7 +133,7 @@ For messaging:
 
 ---
 
-# CI behavior
+# 🤖 CI behavior
 
 * GitHub Actions runs with test profile
 * H2 for most tests
@@ -146,14 +146,115 @@ For messaging:
 
 Basic observability endpoints should be verifiable locally:
 
-- `/actuator/health`
-- `/actuator/prometheus`
+* `/actuator/health`
+* `/actuator/prometheus`
 
 These are mostly configuration/infrastructure checks rather than business tests.
 
 ---
 
-# Tasks & layout (current)
+# 🐳 Docker smoke testing
+
+The application can also be verified as a fully containerized stack.
+
+## Purpose
+
+These checks validate that:
+
+* the backend Docker image builds successfully
+* the backend container starts correctly
+* PostgreSQL and RabbitMQ connectivity work
+* the application exposes health endpoints correctly
+
+This is primarily an infrastructure/runtime verification rather than a business logic test.
+
+---
+
+## Start the full stack
+
+From the repository root:
+
+```bash
+docker compose up --build
+```
+
+Or run in the background:
+
+```bash
+docker compose up -d --build
+```
+
+---
+
+## Verify backend health
+
+```bash
+curl -f http://localhost:8080/actuator/health
+```
+
+Expected response:
+
+```json
+{"status":"UP"}
+```
+
+This verifies that:
+
+* Spring Boot started successfully
+* the backend is reachable on port `8080`
+* the container networking works
+* datasource and RabbitMQ configuration are valid
+
+---
+
+## Useful Docker debugging commands
+
+View backend logs:
+
+```bash
+docker compose logs -f backend
+```
+
+Stop the stack:
+
+```bash
+docker compose down
+```
+
+Reset local volumes completely:
+
+```bash
+docker compose down -v
+```
+
+---
+
+## Notes
+
+Inside Docker Compose, services communicate using Compose service names:
+
+```text
+postgres
+rabbitmq
+```
+
+not `localhost`.
+
+The backend Docker image is defined in:
+
+```text
+apps/backend/Dockerfile
+```
+
+The full stack is orchestrated by:
+
+```text
+compose.yaml
+```
+
+---
+
+# 📁 Tasks & layout (current)
 
 All tests live under `src/test/java`.
 
@@ -170,7 +271,7 @@ Testcontainers-based tests:
 
 ---
 
-# Why this setup works well
+# ✅ Why this setup works well
 
 * Speed: unit tests dominate
 * Reliability: no hidden dependency on local services
