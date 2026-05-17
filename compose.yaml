@@ -1,4 +1,24 @@
 services:
+  backend:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+#      SPRING_PROFILES_ACTIVE: test // if want to run test profile then need a runtimeOnly as well as testRUntimeOnly dependency in build.gradle.kts for h2!
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/giftilist
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_RABBITMQ_HOST: giftilist-rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+    depends_on:
+      - postgres
+      - rabbitmq
+
   postgres:
     image: postgres:16-alpine
     environment:

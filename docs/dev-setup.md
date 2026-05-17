@@ -1,3 +1,5 @@
+# Development Setup
+
 ## ✅ Prerequisites
 
 * **JDK 21** (Temurin/Zulu)
@@ -7,57 +9,68 @@
 
 ---
 
-## 🚀 Getting Started
+# 🚀 Getting Started
 
-### Option A — Local K8s (kind + Tilt)
+## Option A — Infrastructure in Docker + backend in IntelliJ/Gradle (recommended)
 
-```bash
-# 1) Create a local cluster
-kind create cluster --name giftilist
+Recommended for day-to-day development.
 
-# 2) Start dev workflow (from repo root)
-# (Requires Tiltfile + k8s manifests in infra/k8s)
-tilt up
+### 1) Start infrastructure
 
-# 3) Open services
-# Web: http://localhost:3000 (or via Ingress)
-# API Swagger: http://localhost:8080/swagger-ui.html
-```
-
----
-
-### Option B — Local Docker + Apps (recommended)
-
-#### 1) Start infrastructure (from repo root)
+From repo root:
 
 ```bash
-docker compose up -d
+docker compose up -d postgres rabbitmq prometheus grafana
 ```
 
-This will start:
+This starts:
 
 * PostgreSQL
 * RabbitMQ
+* Prometheus
+* Grafana
 
 RabbitMQ UI:
-👉 http://localhost:15672
-(user: `guest`, pass: `guest` — dev only)
+👉 [http://localhost:15672](http://localhost:15672)
+
+* user: `guest`
+* password: `guest`
+
+Grafana:
+👉 [http://localhost:3001](http://localhost:3001)
+
+Prometheus:
+👉 [http://localhost:9090](http://localhost:9090)
 
 ---
 
-#### 2) Run backend
+### 2) Run backend locally
 
 ```bash
 cd apps/backend
 ./gradlew bootRun
 ```
 
-* API: http://localhost:8080
-* Swagger: http://localhost:8080/swagger-ui.html
+The backend runs on your machine and connects to:
+
+* PostgreSQL: `localhost:5432`
+* RabbitMQ: `localhost:5672`
+
+API:
+👉 [http://localhost:8080](http://localhost:8080)
+
+Swagger UI:
+👉 [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+
+Health endpoint:
+👉 [http://localhost:8080/actuator/health](http://localhost:8080/actuator/health)
+
+Prometheus metrics:
+👉 [http://localhost:8080/actuator/prometheus](http://localhost:8080/actuator/prometheus)
 
 ---
 
-#### 3) Run frontend
+### 3) Run frontend
 
 ```bash
 cd apps/web-react
@@ -65,69 +78,231 @@ npm install
 npm run dev
 ```
 
-* App: http://localhost:3000
+Frontend:
+👉 [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 🔌 OpenAPI / Clients
+## Option B — Full Docker Compose stack
+
+Use this to verify the whole system runs in containers.
+
+From repo root:
+
+```bash
+docker compose up --build
+```
+
+This starts:
+
+* Backend app
+* PostgreSQL
+* RabbitMQ
+* Prometheus
+* Grafana
+
+The backend runs inside Docker and connects to services using Docker Compose service names:
+
+* PostgreSQL: `postgres:5432`
+* RabbitMQ: `rabbitmq:5672`
+
+---
+
+## 🐳 Docker Commands
+
+### Start stack
+
+```bash
+docker compose up
+```
+
+### Start stack in background
+
+```bash
+docker compose up -d
+```
+
+### Rebuild after backend or Dockerfile changes
+
+```bash
+docker compose up --build
+```
+
+### View backend logs
+
+```bash
+docker compose logs -f backend
+```
+
+### Stop stack
+
+```bash
+docker compose down
+```
+
+### Reset local database volumes
+
+```bash
+docker compose down -v
+```
+
+> `-v` removes Docker volumes, including local Postgres data.
+
+---
+
+## 🐳 Docker Structure
+
+Backend Docker image:
+
+```text
+apps/backend/Dockerfile
+```
+
+Full local stack definition:
+
+```text
+compose.yaml
+```
+
+Important Docker networking concept:
+
+Inside Docker Compose:
+
+```text
+localhost = the current container
+```
+
+Containers communicate using Compose service names:
+
+```text
+postgres
+rabbitmq
+backend
+```
+
+not `localhost`.
+
+---
+
+## Option C — Local K8s (kind + Tilt)
+
+Experimental / optional local Kubernetes workflow.
+
+### 1) Create local cluster
+
+```bash
+kind create cluster --name giftilist
+```
+
+### 2) Start Tilt
+
+```bash
+tilt up
+```
+
+### 3) Open services
+
+* Web: [http://localhost:3000](http://localhost:3000)
+* API Swagger: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+
+---
+
+# 🔌 OpenAPI / Clients
 
 * Live spec: `GET /v3/api-docs`
 * Swagger UI: `/swagger-ui.html`
-* (Optional) Generate a TS client into `packages/api-client` using openapi-generator
+* Optional: generate a TypeScript client into `packages/api-client`
 
 ---
 
-## 🐇 RabbitMQ (local)
+# 🐇 RabbitMQ (local)
 
-* Broker: `localhost:5672`
-* Management UI: http://localhost:15672
+Broker:
+
+```text
+localhost:5672
+```
+
+Management UI:
+
+👉 [http://localhost:15672](http://localhost:15672)
 
 Used for:
 
-* asynchronous events (e.g. item reserved)
-* decoupled side effects (notifications, audit, analytics)
+* asynchronous events
+* decoupled side effects
+* notifications
+* audit/event pipelines
 
 ---
 
-## 🌐 i18n
+# 🌐 i18n
 
 * Source language: English
 * Translations: Dutch (`public/locales/en|nl/*.json`)
-* Library:
 
-    * Web: `react-i18next`
-    * Mobile: `react-i18next` + `react-native-localize`
+Libraries:
 
----
-
-## 🔐 Env & Secrets (dev)
-
-* Keep secrets out of git (see root `.gitignore`)
-* Web: `.env.local` (in `apps/web-react/`)
-* Backend: `application-local.yml` (in `apps/backend/`)
-* K8s: `infra/k8s/secrets/` (do not commit raw secrets)
+* Web: `react-i18next`
+* Mobile: `react-i18next` + `react-native-localize`
 
 ---
 
-## Observability (local)
+# 🔐 Env & Secrets (dev)
+
+Keep secrets out of git.
+
+Web:
+
+```text
+apps/web-react/.env.local
+```
+
+Backend:
+
+```text
+apps/backend/application-local.yml
+```
+
+Kubernetes:
+
+```text
+infra/k8s/secrets/
+```
+
+Do not commit raw secrets.
+
+---
+
+# 📊 Observability (local)
 
 Backend endpoints:
-- Health: `http://localhost:8080/actuator/health`
-- Prometheus metrics: `http://localhost:8080/actuator/prometheus`
+
+* Health:
+  [http://localhost:8080/actuator/health](http://localhost:8080/actuator/health)
+
+* Prometheus metrics:
+  [http://localhost:8080/actuator/prometheus](http://localhost:8080/actuator/prometheus)
 
 RabbitMQ metrics:
-- `http://localhost:15692/metrics`
 
-These endpoints are used later by Prometheus/Grafana for monitoring.
----
+* [http://localhost:15692/metrics](http://localhost:15692/metrics)
 
-## 🧪 Testing
-
-* See [docs/testing.md](./testing.md)
+These endpoints are consumed by Prometheus/Grafana.
 
 ---
 
-## 🤝 Contributing / Conventions
+# 🧪 Testing
+
+See:
+
+```text
+docs/testing.md
+```
+
+---
+
+# 🤝 Contributing / Conventions
 
 * Conventional commits (`feat:`, `fix:`, `chore:`…)
 * Web: Prettier / ESLint
@@ -136,6 +311,6 @@ These endpoints are used later by Prometheus/Grafana for monitoring.
 
 ---
 
-## 📜 License
+# 📜 License
 
 * MIT

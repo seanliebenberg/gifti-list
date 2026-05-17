@@ -52,6 +52,7 @@ docker compose up -d
 
 This starts:
 
+* Backend app
 * PostgreSQL
 * RabbitMQ
 * Prometheus 
@@ -60,12 +61,18 @@ This starts:
 ---
 
 ### 2. Start backend
-
+### 2.1 Running with Gradle 
 ```bash id="8p0g3r"
 cd apps/backend
 ./gradlew bootRun
 ```
+### 2.2 Running with Docker Compose
 
+The local stack can be started from the project root:
+
+```bash
+docker compose up
+```
 ---
 
 ### 3. (Optional) Start frontend
