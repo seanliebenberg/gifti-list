@@ -23,16 +23,16 @@ repositories {
 // Remove once upstream resolves to a patched Jackson 2 line.
 configurations.all {
     resolutionStrategy.force(
-        "com.fasterxml.jackson.core:jackson-core:2.21.3",
-        "com.fasterxml.jackson.core:jackson-databind:2.21.3",
+        "com.fasterxml.jackson.core:jackson-core:2.22.0",
+        "com.fasterxml.jackson.core:jackson-databind:2.22.0",
         "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.22.0",
-        "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.21.3"
+        "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.22.0"
     )
 }
 
 dependencies {
 // override jackson versions to address cves is done in configurations.all
-    implementation(enforcedPlatform("com.fasterxml.jackson:jackson-bom:2.21.3"))
+    implementation(enforcedPlatform("com.fasterxml.jackson:jackson-bom:2.22.0"))
 
     // Message broker rabbitmq
     implementation("org.springframework.boot:spring-boot-starter-amqp")
